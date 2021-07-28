@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>OS Wars - Jordan Haddock</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+					<!--<a href="index.html" class="logo">Massively</a>-->
+				</header>
+
+				<!-- Nav -->
+                <nav id="nav">
+                    <ul class="links">
+                        <li><a href="index.html">Overview</a></li>
+						<li><a href="DungeonBrawlersPrototype.html">Dungeon Generator</a></li>
+						<li><a href="Neokaiju.html">Neokaiju</a></li>
+						<!--<li><a href="DungeonBrawlers.html">Dungeon Brawlers</a></li>-->
+                        <li class="active"><a href="OSWars.html">OS Wars</a></li>
+                        <li><a href="Heilsgeschichte.html">Heilsgeschichte</a></li>
+                    </ul>
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/jordan-haddock" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+					</ul>
+                </nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h1>OS Wars</h1>
+									<p>
+										OS Wars is a hectic, splitscreen multiplayer, "satyrical" arena shooter. The game was 
+										designed top-down to look and sound reminiscent of a popular operating system from the 
+										90's. It was the first game that I made by myself. I turned it in as the final 
+										project for a computer graphics class.
+									</p>
+									<h5>1 Level | Multiplayer | Menus | Save Files</h5>
+									<h3>Highlights</h3>
+									<h4>
+										Menus and Player Profiles with persisting scores and stats<br>
+										<!--Gameplay logic, including scores and overtime<br>-->
+										Custom Post-Processing Shader
+									</h4>
+								</header>
+								<div class="image main"><img src="images/oswars.gif" alt=""></div>
+								<p><br><br></p>
+
+								<h2>Menus and Gamesaves</h2>
+								<p>
+									Players were able to create their own profiles, including their name,
+									and a few cosmetic and control options.<br>
+									<div class="image main"><img src="images/mainmenu.png"></div><br>
+									Player profiles and stats persist between play sessions.
+									At the end of every round, players get to see their stats
+									on the results screen.<br>
+									<div class="image main"><img src="images/results_screen.png"></div>
+									The windows on the left show results from the current round,
+									the windows on the left show each players play-history from every round.
+								</p>
+
+								<!--<h2>Gameplay logic</h2>
+								<p>
+									[put something here, maybe?]
+								</p>-->
+
+								<h2>Shader Programming</h2>
+								<p>
+									This was a game that needed to feel like it was running on vintage hardware.<br>
+									<br>
+									I made a custom cel-shader that acheives a very high-contrast look by applying a staircase
+									function to the rgb elements of the base-color channel.<br>
+									<br>
+									In order maintain the shape of the objects in the world, I multiplied the base color by
+									the world normals, with the same staircase function applied.<br>
+									<br>
+									It was kind of hard to make out details on the character models, so I added outlines by darkening
+									pixels with neighbors that differed greatly in world normal or distance from camera.<br>
+									<br>
+									Finally, to really bring out that disgusting "jpg on 90's hardware" look, I modified the ambient
+									occlusion, and fed it back into the base color before the staircase function.<br>
+									<img src="images/unlitxnormal.png">
+									
+								</p>
+								<table>
+									<tr>
+										<td>
+											<table>
+												<tr>
+													<th>Base Color</th>
+													<th>World Normals</th>
+												</tr>
+												<tr>
+													<td><img src="images/shader_basecolor.png" alt="" width="150"></td>
+													<td><img src="images/shader_normals.png" alt="" width="150"></td>
+													
+												</tr>
+												<tr>
+													<th>Outlines</th>
+													<th>Ambient Occlusion</th>
+												</tr>
+												<tr>
+													<td><img src="images/shader_outlines.png" alt="" width="150"></td>
+													<td><img src="images/shader_ao.png" alt="" width="150"></td>
+												</tr>
+											</table>
+										</td>
+										<td>
+											<table>
+												<tr><th>Putting it all together</th></tr>
+												<tr><td><div class="image main"><img src="images/shader.png" alt=""></div></td></tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+								
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<section class="split contact">
+						<section>
+							<h3>Email</h3>
+							<p><a href="mailto: jordan.haddock512@gmail.com">jordan.haddock512@gmail.com</a></p>
+						</section>
+						<section>
+							<h3>Social</h3>
+							<ul class="icons alt">
+								<li><a href="https://www.linkedin.com/in/jordan-haddock" class="icon brands alt fa-linkedin"><span class="label">Linkedin</span></a></li>
+							</ul>
+						</section>
+					</section>
+				</footer>
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

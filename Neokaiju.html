@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Neokaiju - Jordan Haddock</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+					<!--<a href="index.html" class="logo">Massively</a>-->
+				</header>
+
+				<!-- Nav -->
+                <nav id="nav">
+                    <ul class="links">
+                        <li><a href="index.html">Overview</a></li>
+						<li><a href="DungeonBrawlersPrototype.html">Dungeon Generator</a></li>
+                        <li class="active"><a href="Neokaiju.html">Neokaiju</a></li>
+						<!--<li><a href="DungeonBrawlers.html">Dungeon Brawlers</a></li>-->
+                        <li><a href="OSWars.html">OS Wars</a></li>
+                        <li><a href="Heilsgeschichte.html">Heilsgeschichte</a></li>
+                    </ul>
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/jordan-haddock" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+					</ul>
+                </nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h1>Neokaiju</h1>
+									<p>[info on student project]</p>
+									<h5>Student Project | Available on Steam | Single Player | One level</h5>
+									<h3>My Contributions</h3>
+									<h4>
+										Design of physics-based building destruction system<!--<br>
+										Prototyping Controls and character abilities<br>
+										State Machine defining enemy behavior-->
+									</h4>
+								</header>
+								<div class="image main"><img src="images/neokaiju.gif" alt="" /></div>
+								<p><br><br></p>
+
+								<h2>Destruction system</h2>
+								<div class="image main"><img src="images/destruction.gif"></div>
+								<p><br></p>
+								<table>
+									<tr>
+										<td style="vertical-align:middle">
+											In Neokaiju, the character needed to be able to tear apart buildings.
+											By separating larger buildings into blocks, we can use physics constraints to stitch
+											the blocks together so that they fall apart in a convincing manner.<br>
+											<br>
+											In the image to the right, the red-highlighted block owns physics constraints
+											connecting it to the blue-highleted blocks.
+										</td>
+										<td><img src="images/connected_blocks.PNG" height="240"></td>
+									</tr>
+								</table>
+								<table>
+									<tr>
+										<td style="vertical-align:middle">
+											However, it would be a waste of processing power to let all buildings simulate physics 
+											at all times. It would also give unbroken buildings an elastic sort of feeling, as the 
+											small amount of give in the physics constraints would make larger structures sag under their
+											own weight.
+										</td>
+										<td><img src="images/visible_sagging.png"></td>
+									</tr>
+								</table>
+								<table>
+									<tr>
+										<td style="vertical-align:middle">
+											To solve this problem, each building block starts without physics, and whenever one is broken,
+											a "Block Manager" will run a flood fill algorithm on neighbors until it finds one that connects
+											to a static part of the level.<br>
+											<br>
+											In the image to the right, the two highlighted blocks act as the foundation, and will never
+											simulate physics.
+										</td>
+										<td><img src="images/foundations.png"></td>
+									</tr>
+								</table>
+								<p>
+									If the fill algorithm runs out of blocks before that happens, physics is enabled on the entire
+									group of blocks so that they fall as one unit.<br>
+									<br>
+									Using Unreal's physics constraints made removal of joints under significant stress easy. Apply
+									additional damage to blocks that hit each other or the ground with enough force, and we have a
+									convincing, physics based building destruction system.
+								</p>
+								<p><br></p>
+
+								<!--<h2>Ability Prototypes</h2>
+								<p>
+									I was responsible for designing the toolset available to the character.<br>
+									<br>
+									Dash attack<br>
+									Laser<br>
+									Grab/Throw<br>
+									<br>
+									Small projectile<br>
+									Triple projectile<br>
+									Cyclone projectile<br>
+									Ultimate Dash attack
+								</p>
+								p><br></p>
+
+								<h2>Enemy State Machine</h2>
+								<p><br></p>-->
+
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<section class="split contact">
+						<section>
+							<h3>Email</h3>
+							<p><a href="mailto: jordan.haddock512@gmail.com">jordan.haddock512@gmail.com</a></p>
+						</section>
+						<section>
+							<h3>Social</h3>
+							<ul class="icons alt">
+								<li><a href="https://www.linkedin.com/in/jordan-haddock" class="icon brands alt fa-linkedin"><span class="label">Linkedin</span></a></li>
+							</ul>
+						</section>
+					</section>
+				</footer>
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Heilsgeschichte - Jordan Haddock</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+					<!--<a href="index.html" class="logo">Massively</a>-->
+				</header>
+
+				<!-- Nav -->
+                <nav id="nav">
+                    <ul class="links">
+                        <li><a href="index.html">Overview</a></li>
+                        <li><a href="DungeonBrawlersPrototype.html">Dungeon Generator</a></li>
+                        <li><a href="Neokaiju.html">Neokaiju</a></li>
+                        <!--<li><a href="DungeonBrawlers.html">Dungeon Brawlers</a></li>-->
+                        <li><a href="OSWars.html">OS Wars</a></li>
+                        <li class="active"><a href="Heilsgeschichte.html">Heilsgeschichte</a></li>
+                    </ul>
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/jordan-haddock" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+					</ul>
+                </nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h1>Heilsgeschichte</h1>
+									<p>
+										Heilsgeschichte is a short, abstract, third person puzzle game. I made the entire game by myself,
+										including the models and animations. As such, I was able to explore and practice using parts of
+										Unreal that will be useful when working with animators and artists, such as Animation Blueprints.
+									</p>
+									<h5>1 Level | Single Player</h5>
+									<h3>Highlights</h3>
+									<h4>
+										Modular Level Design and reusable assets<br>
+										Character Controls defined by State Machine
+									</h4>
+								</header>
+								<div class="image main"><img src="images/heilsgeschichte.gif" alt="" /></div>
+								<p><br><br></p>
+								
+
+								<h2>Modular Level Design</h2>
+								<p>
+									A single model can often be reused with different scaling and rotation to convincingly give the 
+									impression of numerous unique shapes. Reusing models saves time, storage, and also memory in game.<br><br>
+								
+									I relied heavily on this technique when building the level for Heilsgeschichte. Almost all walkable
+									surfaces use the platform model, while most walls are made from the cavity model. The cavity has one
+									convex side and one concave side, which allowed me to use it to shape large, rounded caverns as well 
+									as winding tunnels.
+								</p>
+								<table>
+									<tr>
+										<th>Cavity Model</th>
+										<th>PlatForm Model</th>
+									</tr>
+									<tr>
+										<td><img src="images/cavity.png" height="250" alt="Cavity Model"></td>
+										<td><img src="images/platform.png" height="250" alt="Platform Model"></td>
+									</tr>
+								</table>
+								<table>
+									<tr><th>Level Made Primarily from the two models</th></tr>
+									<tr><td><img src="images/heils_level.png" alt=""></td></tr>
+								</table>
+
+								<h2>State Machine</h2>
+								<p>
+									My preferred solution for context-sensitive controls is to use a finite state machine. <br><br>
+									
+									For heilgeshchichte, I implemented all ability behavior within the character, and gave each state a
+									reference to the character. This way, the abilities for the character are reusable; if I want an ability to
+									be possible in multiple states, I only have to call that function on the character within the state's overridden
+									input event. If the code must be repeated in multiple states - and inheritance is not suitable - the repetition
+									is limited to a single, readable line of code.<br><br>
+
+									Allowing the character to define its own behavior, and allowing the states to define when to call this behavior
+									provided me with a robust solution that minimized time spent debugging complex conditional logic within the
+									character. It would also be easy to add additional states and abilities to the character with this system.
+								</p>
+								<table>
+									<tr><th>Code Sample</th></tr>
+									<tr><td><pre>
+
+<code><span style="color: #35a035">/* HeilsgeschichteCharacter.cpp
+Changing the PlayerState on the Character */</span>
+<span style="color: #4094d4">void</span> <span style="color: #cc84cc">AHeilsgeschichteCharacter</span>::ChangeState(<span style="color: #cc84cc">State</span>* NewState)
+{
+	PlayerState->Exit(<span style="color: #4094d4">this</span>);
+	NewState->Enter(<span style="color: #4094d4">this</span>);
+	<span style="color: #cc84cc">State</span>* OldState = PlayerState;
+	PlayerState = NewState;
+	<span style="color: #4094d4">delete</span> OldState;
+}
+
+
+<span style="color: #35a035">/* State.h 
+numerous functions are implemented in the base class and called by the Character,
+but most child-states will only need to implement a few (the ones for which any
+behavior is expected) */</span>
+<span style="color: #4094d4">class</span> HEILSGESCHICHTE_API <span style="color: #cc84cc">State</span>
+{
+<span style="color: #4094d4">public</span>:
+	State();
+	<span style="color: #4094d4">virtual</span> ~State();
+
+	<span style="color: #4094d4">virtual void</span> Enter(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+	<span style="color: #4094d4">virtual void</span> Update(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player, <span style="color: #4094d4">float</span> DeltaTime);
+	<span style="color: #4094d4">virtual void</span> Exit(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+
+	<span style="color: #4094d4">virtual void</span> JumpPressed(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+	<span style="color: #4094d4">virtual void</span> JumpReleased(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+	<span style="color: #4094d4">virtual void</span> AttackPressed(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+	<span style="color: #4094d4">virtual void</span> AttackReleased(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+	<span style="color: #4094d4">virtual void</span> CallPressed(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+	<span style="color: #4094d4">virtual void</span> CallReleased(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+	<span style="color: #4094d4">virtual void</span> InteractPressed(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+	<span style="color: #4094d4">virtual void</span> InteractReleased(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player);
+
+	<span style="color: #4094d4">bool</span> bCanMove;
+	<span style="color: #cc84cc">EPlayerState</span> PlayerState;
+};
+
+
+<span style="color: #35a035">/* IdleState.h
+In the IdleState, the only parent functions with behavior are Update,
+InteractPressed, and CallPressed. */</span>
+<span style="color: #4094d4">class</span> HEILSGESCHICHTE_API <span style="color: #cc84cc">IdleState</span> : <span style="color: #4094d4">public</span> <span style="color: #cc84cc">State</span>
+{
+<span style="color: #4094d4">public</span>:
+	IdleState();
+	~IdleState();
+
+	<span style="color: #35a035">// On tick: search for objects that could be picked up</span>
+	<span style="color: #4094d4">virtual void</span> Update(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player, <span style="color: #4094d4">float</span> DeltaTime) override;
+	
+	<span style="color: #35a035">// If an object is within reach, pick it up</span>
+	<span style="color: #4094d4">virtual void</span> InteractPressed(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player) override;
+	
+	<span style="color: #35a035">// In this state the player is free to call for help</span>
+	<span style="color: #4094d4">virtual void</span> CallPressed(<span style="color: #cc84cc">AHeilsgeschichteCharacter</span>* Player) override;
+};</code>
+									</pre></td></tr>
+								</table>
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<section class="split contact">
+						<section>
+							<h3>Email</h3>
+							<p><a href="mailto: jordan.haddock512@gmail.com">jordan.haddock512@gmail.com</a></p>
+						</section>
+						<section>
+							<h3>Social</h3>
+							<ul class="icons alt">
+								<li><a href="https://www.linkedin.com/in/jordan-haddock" class="icon brands alt fa-linkedin"><span class="label">Linkedin</span></a></li>
+							</ul>
+						</section>
+					</section>
+				</footer>
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
