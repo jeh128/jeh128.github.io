@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Dungeon Brawlers Prototype - Jordan Haddock</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+					<!--<a href="index.html" class="logo">Massively</a>-->
+				</header>
+
+				<!-- Nav -->
+                <nav id="nav">
+                    <ul class="links">
+                        <li><a href="index.html">Overview</a></li>
+                        <li class="active"><a href="DungeonBrawlersPrototype.html">Dungeon Generator</a></li>
+                        <li><a href="Neokaiju.html">Neokaiju</a></li>
+                        <!--<li><a href="DungeonBrawlers.html">Dungeon Brawlers</a></li>-->
+                        <li><a href="OSWars.html">OS Wars</a></li>
+                        <li><a href="Heilsgeschichte.html">Heilsgeschichte</a></li>
+                    </ul>
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/jordan-haddock" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+					</ul>
+                </nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h1>Dungeon Generator</h1>
+									<p>
+										Early in developement of <!--<a href="DungeonBrawlers.html">-->Dungeon Brawlers<!--</a></span>-->, we explored
+										featuring a procedurally generated dungeon for the game. I was able to create several prototype
+										dungeon generators using Unreal C++.
+									</p>
+									<h5>Student Project | Prototype | 4 player | Procedurally Generated</h5>
+									<h3>Highlights</h3>
+									<h4>
+										Procedural Dungeon Generator Designed for multiple players<br>
+										C++ written for Unreal Blueprints<br>
+									</h4>
+								</header>
+								<!--<div class="image main"><img src="images/pic01.jpg" alt="" /></div>-->
+								<p><br><br></p>
+								<h2>Dungeon Generation</h2>
+								<p>
+									The dungeon generator worked on a grid of rooms. It created a tree of rooms connected in the cardinal directions.
+								</p>
+								<p>
+									The problem with using a tree with a single origin is that you get long passages that ultimately end in dead ends,
+									and the player has to waste valuable time backtracking through rooms they've already looted.<br>
+									What we wanted for our game was for the dungeon to be more cyclical in nature: once a branch has been looted,
+									the player is naturally guided back to the rest of the dungeon by exploring new rooms.
+								</p>
+								<p>
+									To solve this problem, after generating the tree, every square of four rooms is considered.
+									If any four rooms have fewer than 3 connections between them, and additional corridor is added between them.
+									Doing so minimizes the amount of dead ends more than 2 or 3 rooms deep.
+								</p>
+								<p>
+									Once a floor of the dungeon's structure is generated, some processing is necessary to decide the 
+									function of each room. The goal is to find the staircase down to the next floor of the dungeon, where
+									the game gets more challenging, but the loot is more rewarding. So the most important rooms in the
+									dungeon will be the ones the players start in, and the ones that lead downward.
+								</p>
+								<p>
+									<table>
+										<tr>
+											<th>Green Rooms</th>
+											<th>Orange Rooms</th>
+											<th>Blue, Brown, and White Rooms</th>
+										</tr>
+										<tr>
+											<td>Where players start</td>
+											<td>Where players want to be</td>
+											<td>Other</td>
+										</tr>
+									</table>
+									<div class="image main"><img src="images/dungeon1.png"></div>
+									<div class="image main"><img src="images/dungeon2.png"></div>
+									All green rooms are equidistant from orange rooms, so no one has an unfair advantage.
+								</p>
+
+								<h2>C++ And Unreal</h2>
+								<table>
+									<tr><th>BaseRoom.h</th></tr>
+									<tr>
+										<td>
+<pre><code>public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UGenerationLocationComponent* NorthDoorLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UGenerationLocationComponent* EastDoorLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UGenerationLocationComponent* WestDoorLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UGenerationLocationComponent* SouthDoorLocation;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
+	TSubclassOf&lt;ADoorway&gt; DoorBP;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
+	TSubclassOf&lt;ADoorway&gt; WallBP;
+
+	// How far the next exit is from this room (used for difficulty)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Rank;
+
+	// What sublevel the Room is part of (used for difficulty)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Level;
+
+	// Ensures consistent Reload
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Seed;
+
+	void initRoom(RoomData* roomdata);
+
+	UFUNCTION(BlueprintCallable)
+	void SendPlayerToDoor(AActor* player);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void DynamicGenerate();
+	virtual void DynamicGenerate_Implementation();</code></pre>
+										</td>
+									</tr>
+									<tr><th>BP_BaseRoom.uasset</th></tr>
+									<tr><td><div class = "image main"><img src="images/baseroom_init.png"></div></td></tr>
+									<tr><td><div class = "image main"><img src="images/baseroom.png"></div></td></tr>
+								</table>
+								
+								<h2>Bonus: More Dungeon Generation</h2>
+								<p>
+									Here is an older prototype of the dungeon. In this prototype room variety was more fleshed out.
+									Diagonal connections were also possible.
+									<div class="image main"><img src="images/old_dungeon.PNG"></div>
+									<table>
+										<tr>
+											<td><img src="images/old_dungeon_room1.png" height="170"></td>
+											<td><img src="images/old_dungeon_room2.png" height="170"></td>
+											<td><img src="images/old_dungeon_room3.png" height="170"></td>
+										</tr>
+									</table>
+								</p>
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section class="split contact">
+							<section>
+								<h3>Email</h3>
+								<p><a href="mailto: jordan.haddock512@gmail.com">jordan.haddock512@gmail.com</a></p>
+							</section>
+							<section>
+								<h3>Social</h3>
+								<ul class="icons alt">
+									<li><a href="https://www.linkedin.com/in/jordan-haddock" class="icon brands alt fa-linkedin"><span class="label">Linkedin</span></a></li>
+								</ul>
+							</section>
+						</section>
+					</footer>
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
